@@ -1,0 +1,164 @@
+/* Catalog Grid Architecture */
+.products-grid-layout {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
+    transition: max-height 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+    overflow: hidden;
+}
+
+.products-grid-layout.constrained-view {
+    max-height: 480px; /* Clamps initial viewing layout rows seamlessly */
+}
+
+.catalog-product-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Sizing Compensation and Slider Frame Engine */
+.card-media-wrapper {
+    position: relative;
+    width: 100%;
+    height: 260px;
+    background: #090b0e;
+    overflow: hidden;
+}
+
+.slider-canvas-track {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.slide-frame {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Guarantees layout integrity regardless of uploaded image scale metrics */
+    object-position: center;
+    opacity: 0;
+    transition: opacity 0.4s ease-in-out;
+    z-index: 1;
+}
+
+.slide-frame.active-frame {
+    opacity: 1;
+    z-index: 2;
+}
+
+/* Navigational Slider Overlays */
+.slider-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.6);
+    color: #ffffff;
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    transition: background 0.3s ease;
+}
+
+.slider-arrow:hover {
+    background: var(--color-accent);
+}
+
+.slider-arrow.prev { left: 10px; }
+.slider-arrow.next { right: 10px; }
+
+.slider-bullets-indicator {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 6px;
+    z-index: 10;
+}
+
+.bullet-dot {
+    width: 7px;
+    height: 7px;
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 50%;
+    transition: background 0.3s;
+}
+
+.bullet-dot.active-dot {
+    background: var(--color-accent);
+    width: 18px;
+    border-radius: 4px;
+}
+
+/* Unified Action Footers (Mirrors index.php) */
+.p-card-footer-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.add-to-cart-btn {
+    background: var(--color-accent);
+    color: #ffffff;
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease;
+}
+
+.add-to-cart-btn:hover {
+    background: var(--color-accent-hover);
+}
+
+.catalog-brief-desc {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: 5px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+@media (max-width: 480px) {
+    .products-grid-layout {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .card-media-wrapper {
+        height: 210px;
+    }
+
+    .p-card-footer-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .add-to-cart-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
